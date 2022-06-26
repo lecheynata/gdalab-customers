@@ -19,6 +19,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/customers', [CustomerController::class, 'index']);
-Route::post('/customers', [CustomerController::class, 'store']);
-Route::delete('/customers/{dni}', [CustomerController::class, 'destroy']);
+Route::middleware('logging')->group(function () {
+    Route::get('/customers', [CustomerController::class, 'index']);
+    Route::post('/customers', [CustomerController::class, 'store']);
+    Route::delete('/customers/{dni}', [CustomerController::class, 'destroy']);
+});
