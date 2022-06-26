@@ -37,4 +37,18 @@ class CustomerController extends Controller
 
         return $customer->save();
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  string  $dni
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($dni = null)
+    {
+        $customer = Customer::where('dni', $dni)
+            ->update(['status' => 'trash']);
+
+        return $customer;
+    }
 }
