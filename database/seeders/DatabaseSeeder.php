@@ -4,8 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\UserSeeder;
-use Illuminate\Database\RegionSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,7 +16,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             UserSeeder::class,
-            RegionSeeder::class
+            RegionSeeder::class,
+            CommuneSeeder::class
         ]);
 
         // \App\Models\User::factory(1)->create();
