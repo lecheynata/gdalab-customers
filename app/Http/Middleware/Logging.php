@@ -17,7 +17,7 @@ class Logging
      */
     public function handle(Request $request, Closure $next)
     {
-        Log::info(Request::ip());
+        // Log::info(Request::ip());
         return $next($request);
     }
 }
