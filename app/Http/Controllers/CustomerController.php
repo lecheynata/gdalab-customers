@@ -95,6 +95,10 @@ class CustomerController extends Controller
      */
     public function destroy($dni = null)
     {
+        $findCustomer = Customer::where('dni', $dni)->where('status', 'trash')->first();
+
+        if ($findCustomer) return response()->json('Registro no existe.');
+
         $customer = Customer::where('dni', $dni)
             ->update(['status' => 'trash']);
 
