@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Region extends Model
 {
     use HasFactory;
+
+    // Disable timestamps defaults
+    public $timestamps = false;
 }
