@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Resouces\CustomerResource;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
 use App\Models\Commune;
 
@@ -57,10 +58,22 @@ class CustomerController extends Controller
 
         $findCustomer = Customer::where('dni', $request->dni)
             ->orWhere('email', $request->email)
-            ->get();
+            ->first();
 
         // Validate if the customers is already registered
         if ($findCustomer) return response()->json('El DNI o Email ya se encuentran previamente registrados.');
+
+        // Validate input request
+        $validator = Validator::make($request->all(), [
+            'dni' => 'required|max:45',
+            'id_reg' => 'required',
+            'id_com' => 'required',
+            'email' => 'required|regex:/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/|max:45',
+            'name' => 'required|max:45',
+            'address' => 'required|max:255'
+        ]);
+
+        if ($validator->fails()) return $validator->errors();
 
         $customer = new Customer;
         $customer->dni = $request->dni;
