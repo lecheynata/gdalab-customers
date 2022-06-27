@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Resouces\CustomerResource;
 use App\Models\Customer;
+use App\Models\Commune;
 
 class CustomerController extends Controller
 {
@@ -26,6 +27,22 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
+        $findCommune = Commune::where('id_com', $request->id_com)
+            ->with(['regions' => function($q) use($request) {
+                $q->where('regions.id_reg', '=', $request->id_reg);
+            }])
+            ->first();
+
+        // Validate if the region is relationated to commune
+        if (!$findCommune || count($findCommune->regions) < 1) return response()->json('La commune no tiene relacionada la región seleccionada.');
+
+        $findCustomer = Customer::where('dni', $request->dni)
+            ->orWhere('email', $request->email)
+            ->get();
+
+        // Validate if the customers is already registered
+        if ($findCustomer) return response()->json('El DNI o Email ya se encuentran previamente registrados.');
+
         $customer = new Customer;
         $customer->dni = $request->dni;
         $customer->id_reg = $request->id_reg;
