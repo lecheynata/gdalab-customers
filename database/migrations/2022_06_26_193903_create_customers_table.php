@@ -26,6 +26,8 @@ return new class extends Migration
 
             $table->index('dni');
             $table->primary(['dni', 'id_reg', 'id_com']);
+
+            // $table->foreign('id_com')->references('id_com')->on('communes');
         });
     }
 
