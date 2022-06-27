@@ -18,7 +18,9 @@ class CustomerResource extends JsonResource
             'dni' => $this->dni,
             'email' => $this->email,
             'name' => $this->name,
-            'last_name' => $this->last_name
+            'last_name' => $this->last_name,
+            'commune' => $this->commune,
+            'region' => $this->region
         ];
     }
 }
