@@ -34,7 +34,21 @@ class CustomerController extends Controller
             $findCustomer->orWhere('email', $slug);
         }
 
-        return $findCustomer->first();
+        $findCustomer->where('status', 'A');
+        $result = $findCustomer->first();
+
+        $statusCode = 200;
+        $response = ['success' => true];
+
+        if (!$result) {
+            $statusCode = 204;
+            $response['success'] = false;
+            $response['data']['message'] = 'El cliente no existe.';
+        } else {
+            $response['data'] = $result;
+        }
+
+        return $response;
     }
 
     /**
