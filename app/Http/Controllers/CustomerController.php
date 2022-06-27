@@ -73,7 +73,7 @@ class CustomerController extends Controller
      * @param  string  $dni
      * @return \Illuminate\Http\Response
      */
-    public function destroy($dni = null)
+    public function destroy($dni)
     {
         $statusCode = 200;
         $response = ['success' => true];
