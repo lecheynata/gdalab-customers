@@ -20,6 +20,25 @@ class CustomerController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  string  $slug
+     * @return \Illuminate\Http\Response
+     */
+    public function show($slug)
+    {
+        $regex = '/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/';
+        $findCustomer = Customer::where('dni', $slug);
+
+        // Validate if the query string contain a email pattern
+        if (preg_match($regex, $slug)) {
+            $findCustomer->orWhere('email', $slug);
+        }
+
+        return $findCustomer->first();
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
