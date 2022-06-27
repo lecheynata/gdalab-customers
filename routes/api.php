@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomerController;
 
 /*
@@ -19,7 +20,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('logging')->group(function () {
+Route::post('/auth', [AuthController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function () {
     Route::get('/customers', [CustomerController::class, 'index']);
     Route::get('/customers/{slug}', [CustomerController::class, 'show']);
     Route::post('/customers', [CustomerController::class, 'store']);
