@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Commune;
 use App\Models\Customer;
 
-class PostCustomerCreate
+class CustomerValidations
 {
     /**
      * Handle an incoming request.
@@ -62,6 +62,13 @@ class PostCustomerCreate
                 $response['success'] = false;
                 $response['data']['message'] = $validator->errors();
             };
+        } else if ($request->isMethod('delete')) {
+            $findCustomer = Customer::where('dni', $request->dni)->where('status', 'trash')->first();
+
+            if ($findCustomer) {
+                $response['success'] = false;
+                $response['data']['message'] = 'Registro no existe.';
+            }
         }
 
         if (!$response['success']) {
